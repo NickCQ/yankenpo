@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<header>
+    <title>yankenpo</title>
+    <meta charset="utf-8">
+</header>
+<body>
+    <script>
+        let computerScore=0;
+        let myScore=0;
+        let computerPlay=()=> {
+            a=['Rock','Paper','Scissors']
+            return a[Math.floor(Math.random()*3)]
+        };
+        
+        function play(computerPlay,playerSelection) {
+            if ((playerSelection.toLowerCase()=='paper' && computerPlay=='Rock')||(playerSelection.toLowerCase()=='rock' && computerPlay=='Scissors')||(playerSelection.toLowerCase()=='scissors' && computerPlay=='Paper') ) {
+                myScore+=1;
+                return `You Win! ${playerSelection[0].toUpperCase()+playerSelection.slice(1).toLowerCase()} beats ${computerPlay}`
+            } else if (playerSelection.toLowerCase()==computerPlay.toLowerCase()){
+                
+                return `It's a draw`
+            } else {
+                computerScore+=1;
+                return `You Lose! ${computerPlay} beats ${playerSelection[0].toUpperCase()+playerSelection.slice(1).toLowerCase()}`
+            }
+            
+        }
+
+        function game() {
+            
+            while(true){
+                playerSelection=prompt('Rock,Paper ,or Scissors?');
+                console.log(play(computerPlay(),playerSelection));
+                console.log(`Your score is ${myScore} and the computer's score is ${computerScore}.`)
+                if(computerScore==3){
+                    return `The winner is the computer.`
+                } else if (myScore==3){
+                    return `You are the winner.`
+                }
+            }
+        }
+
+    </script>
+</body>
