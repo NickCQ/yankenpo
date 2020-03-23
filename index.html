@@ -1,44 +1,91 @@
 <!DOCTYPE html>
-<header>
+<head>
     <title>yankenpo</title>
     <meta charset="utf-8">
-</header>
+    <link rel="stylesheet" type="text/css" href="CSS/reset.css">
+    <link rel="stylesheet" type="text/css" href="CSS/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2&display=swap" rel="stylesheet">
+</head>
 <body>
+    <header>
+        <div class="titulo">YAN KEN PO</div>
+    </header>
+    <main>
+        <div class='scores'>
+            <div class="scr">SCORE</div>
+            <div class="board">
+                <div class='user'>USER <div data-score='user'>0</div></div>
+                <div class='computer'>COMPUTER <div data-score='computer'>0</div></div>
+            </div>
+        </div>
+        <div class="answers">
+            <button>Restart</button>
+            <div class='text'></div>
+        </div>
+        <div class='versus'>
+            <div class="you">YOU</div>
+            <div>V.S</div>
+            <div class="comp">?</div>
+        </div>
+        <div class='buttons'>
+            <div ><img name='Rock' src='https://www.pngitem.com/pimgs/m/109-1094400_rock-paper-scissors-png-clipart-rock-paper-scissor.png' ></div>
+            <div ><img name='Paper' src='https://www.pngkey.com/png/detail/816-8161571_transparent-rock-paper-scissors-png.png' ></div>
+            <div ><img name='Scissors' src='https://www.netclipart.com/pp/m/63-639213_danahand-scissors-rock-paper-scissors-png.png' ></div>
+        </div>
+    </main>
+    
     <script>
-        let computerScore=0;
-        let myScore=0;
-        let computerPlay=()=> {
-            a=['Rock','Paper','Scissors']
-            return a[Math.floor(Math.random()*3)]
-        };
-        
-        function play(computerPlay,playerSelection) {
-            if ((playerSelection.toLowerCase()=='paper' && computerPlay=='Rock')||(playerSelection.toLowerCase()=='rock' && computerPlay=='Scissors')||(playerSelection.toLowerCase()=='scissors' && computerPlay=='Paper') ) {
-                myScore+=1;
-                return `You Win! ${playerSelection[0].toUpperCase()+playerSelection.slice(1).toLowerCase()} beats ${computerPlay}`
-            } else if (playerSelection.toLowerCase()==computerPlay.toLowerCase()){
+        let rest=document.querySelector('button');
+        let ans=document.querySelector('.text');
+        let userscore=document.querySelector("[data-score='user']");
+        let computerscore=document.querySelector("[data-score='computer']");
+        let you=document.querySelector('.you');
+        let computer=document.querySelector('.comp');
+        let btn=Array.from(document.querySelectorAll('.buttons img'));
+        btn.forEach(function(choice){
+            choice.addEventListener('click',()=>{
+                let computerchoice=btn[Math.floor(Math.random()*3)];
+                you.innerHTML=`<img src='${choice.src}'>`
+                computer.innerHTML=`<img src='${computerchoice.src}'>`
+                if ((choice.name=='Paper' && computerchoice.name=='Rock')||(choice.name=='Rock' && computerchoice.name=='Scissors')||(choice.name=='Scissors' && computerchoice.name=='Paper') ) {
+                    userscore.innerHTML++;
+                    
+                    ans.innerHTML= `You Win! ${choice.name} beats ${computerchoice.name}`
+                    
+
+                } else if (choice.name==computerchoice.name){
+                    ans.innerHTML =`It's a draw`;
+                    
+                } else {
+                    computerscore.innerHTML++;
+                    
+                    ans.innerHTML=`You Lose! ${computerchoice.name} beats ${choice.name}`;
+                    
+            };
+            if(computerscore.innerHTML=='3'){
+                    ans.innerHTML= `The winner is the computer.`;
+                    btn.forEach(function(img){
+                        img.style.display='none'
+                    })
+                } else if (userscore.innerHTML=='3'){
+                    ans.innerHTML= `You are the winner.`;
+                    btn.forEach(function(img){
+                        img.style.display='none'
+                    })
+                };
+            });
+        });
                 
-                return `It's a draw`
-            } else {
-                computerScore+=1;
-                return `You Lose! ${computerPlay} beats ${playerSelection[0].toUpperCase()+playerSelection.slice(1).toLowerCase()}`
-            }
-            
-        }
-
-        function game() {
-            
-            while(true){
-                playerSelection=prompt('Rock,Paper ,or Scissors?');
-                console.log(play(computerPlay(),playerSelection));
-                console.log(`Your score is ${myScore} and the computer's score is ${computerScore}.`)
-                if(computerScore==3){
-                    return `The winner is the computer.`
-                } else if (myScore==3){
-                    return `You are the winner.`
-                }
-            }
-        }
-
+        rest.addEventListener('click',()=>{
+            computerscore.innerHTML='0';
+            userscore.innerHTML='0';
+            btn.forEach(function(img){
+                img.style.display='block'
+            });
+            ans.innerHTML=''
+            you.innerHTML='YOU'
+            computer.innerHTML='?'
+        })    
     </script>
 </body>
